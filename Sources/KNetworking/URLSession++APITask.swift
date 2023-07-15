@@ -31,4 +31,30 @@ extension URLSession {
 
         return APIResponse(data: data, httpResponse: httpResponse)
     }
+
+
+    public func response(for api: API, using decoder: JSONDecoder = JSONDecoder()) async throws -> (data: Data, response: HTTPURLResponse) {
+        let (data, response) = try await self.data(for: try api.asURLRequest())
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.failedHTTPURLResponseConversion
+        }
+
+        return (data, httpResponse)
+    }
+
+    public func json<A>(for api: A, using decoder: JSONDecoder = JSONDecoder()) async throws -> Any where A: API {
+        let (data, response) = try await self.data(for: try api.asURLRequest())
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.failedHTTPURLResponseConversion
+        }
+
+        do {
+            let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
+            return jsonObject
+        } catch {
+            throw error
+        }
+    }
 }

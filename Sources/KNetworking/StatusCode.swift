@@ -61,6 +61,7 @@ public enum StatusCode: Int {
     case TooManyRequests              = 429 // RFC 6585, 4
     case RequestHeaderFieldsTooLarge  = 431 // RFC 6585, 5
     case UnavailableForLegalReasons   = 451 // RFC 7725, 3
+    case clientClosedRequest          = 452 // RFC 7725, 2
 
     case InternalServerError           = 500 // RFC 9110, 15.6.1
     case NotImplemented                = 501 // RFC 9110, 15.6.2
@@ -73,6 +74,7 @@ public enum StatusCode: Int {
     case LoopDetected                  = 508 // RFC 5842, 7.2
     case NotExtended                   = 510 // RFC 2774, 7
     case NetworkAuthenticationRequired = 511 // RFC 6585, 6
-
+    case NetworkConnectTimeoutError    = 512 // RFC 6586, 5
+    
     case unknown = -1
 }
